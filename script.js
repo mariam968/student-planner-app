@@ -1,22 +1,28 @@
 // load tasks on page openoning
 window.onload = function(){
   let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.forEach(task => createTask(task.text, task.done));
+
+  tasks.forEach(task => {
+    createTask(task.text, task.done, task.date, task.category);
+  });
 };
 
 function addTask() {
   let input = document.getElementById("taskInput");
+  let date = document.getElementById("taskDate").value;
+  let category = document.getElementById("taskCategory").value;
+
   let task = input.value;
 
   if(task === "") return;
 
-  createTask(task, false);
+  createTask(task, false, date, category);
   saveTasks();
 
   input.value = "";
 }
 
-function createTask(taskText, isDone) {
+function createTask(taskText, isDone, date, category) {
   let li = document.createElement("li");
 
   let checkbox = document.createElement("input");
@@ -24,7 +30,7 @@ function createTask(taskText, isDone) {
   checkbox.checked = isDone;
 
   let span = document.createElement("span");
-  span.textContent = taskText;
+  span.textContent = taskText + "|" + date + "|" + category;
 
   if(isDone) {
     span.style.textDecoration = "line-through";
@@ -58,10 +64,15 @@ function saveTasks(){
   let listItems = document.querySelectorAll("#taskList li");
 
   listItems.forEach(li => {
-    let text = li.querySelector("span").textContent;
-    let done = li.querySelector("input").checked;
+    let textParts = li.querySelector("span").textContent.split("|");
+    
 
-    tasks.push({ text: text, done: done});
+    tasks.push({ 
+      text: textParts[0],
+      date: textParts[1],
+      category: textParts[2], 
+      done:li.querySelector("input").checked
+    });
   });
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
