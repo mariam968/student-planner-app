@@ -1,26 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Planner</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>My Tasks</h1>
-  <input type="text" id="taskInput" placeholder="Enter a task">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Planner</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>My Tasks</h1>
+    <input type="text" id="taskInput" placeholder="Enter a task" />
 
-  <input type="date" id="taskDate">
+    <input type="date" id="taskDate" />
 
-  <select id="taskCategory">
-    <option value="School">School</option>
-    <option value="Business">Business</option>
-  </select>
+    <select id="taskCategory">
+      <option value="School">School</option>
+      <option value="Business">Business</option>
+    </select>
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
 
-  <button onclick="addTask()">Add Task 
-  </button>
-  <ul id="taskList"></ul>
-  <script src="script.js"></script>
-  
-</body>
+    <h2>Sales Tracker</h2>
+    <input type="text" id="productInput" placeholder="Product name" />
+    <input type="number" id="priceInput" placeholder="Price" />
+
+    <button onclick="addSale()">Add Sale</button>
+    <ul id="salesList"></ul>
+    <h3>Total: <span id="totalAmount">0</span></h3>
+
+    <script src="script.js"></script>
+  </body>
 </html>

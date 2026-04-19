@@ -1,13 +1,12 @@
-// load tasks on page openoning
+// kload everything when page opens
 window.onload = function(){
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-  tasks.forEach(task => {
-    createTask(task.text, task.done, task.date, task.category);
-  });
+  loadTasks();
+  loadSales();
+  updateTotal();
 };
 
-function addTask() {
+// Add new task
+function addTask(){
   let input = document.getElementById("taskInput");
   let date = document.getElementById("taskDate").value;
   let category = document.getElementById("taskCategory").value;
@@ -22,7 +21,8 @@ function addTask() {
   input.value = "";
 }
 
-function createTask(taskText, isDone, date, category) {
+// create task element
+function createTask(taskText, isDone, date, category){
   let li = document.createElement("li");
 
   let checkbox = document.createElement("input");
@@ -32,48 +32,116 @@ function createTask(taskText, isDone, date, category) {
   let span = document.createElement("span");
   span.textContent = taskText + "|" + date + "|" + category;
 
-  if(isDone) {
-    span.style.textDecoration = "line-through";
+  if(isDone){
+    span.style.textDecoration = "line-through;"
   }
 
   checkbox.onclick = function(){
-    span.style.textDecoration = checkbox.checked ? "line-through" : "none";
+    span.style.textDecoration = checkbox.checked? "line-through": "none";
     saveTasks();
   };
 
+  let deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "❌";
+  deleteBtn.onclick = function(){
+    li.remove();
+    saveTasks();
+  };
 
-// create delete button
-let deleteBtn = document.createElement("button");
-deleteBtn.textContent = "❌";
-deleteBtn.onclick = function(){
-  li.remove();
-  saveTasks();
-};
-
-li.appendChild(checkbox);
-li.appendChild(span);
-li.appendChild(deleteBtn);
-
+  li.appendChild(checkbox);
+  li.appendChild(span);
+  li.appendChild(deleteBtn);
 
   document.getElementById("taskList").appendChild(li);
-
 }
 
-function saveTasks(){
+// save tasks
+function saveTasks() {
   let tasks = [];
   let listItems = document.querySelectorAll("#taskList li");
 
   listItems.forEach(li => {
-    let textParts = li.querySelector("span").textContent.split("|");
-    
+    let parts = li.querySelector("span").textContent.split("|");
 
-    tasks.push({ 
-      text: textParts[0],
-      date: textParts[1],
-      category: textParts[2], 
-      done:li.querySelector("input").checked
+    tasks.push({
+      text: parts[0],
+      date: parts[1],
+      category: parts[2],
+      done: li.querySelector("input").checked
+
     });
   });
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+  // load tasks
+  function loadTasks(){
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    tasks.forEach(task => {
+      createTask(task.text, task.done, task.date, task.category);
+    });
+  }
+
+  // SALES
+  // Add sales
+  function addSale(){
+    let product = document.getElementById("productInput").value;
+    let price = document.getElementById("priceInput").value;
+
+    if(product === "" || price === "")return;
+
+    let li = document.createElement("li");
+    li.textContent = product + "-" + price;
+
+    document.getElementById("salesList").appendChild(li);
+
+    updateTotal();
+    saveSales();
+
+    document.getElementById("productInput").value = "";
+    document.getElementById("priceInput").value = "";
+  }
+
+  // Update total
+  function updateTotal(){
+    let total = 0;
+    let items = document.querySelectorAll("#salesList li");
+
+    items.forEach(item => {
+      let parts = item.textContent.split("-");
+      let price = Number(parts[1]);
+      total += price;
+    });
+
+    document.getElementById("totalAmount").textContent = total;
+
+  }
+
+  // Save sales
+  function saveSales(){
+    let sales = [];
+    let items = document.querySelectorAll("#salesList li");
+
+    items.forEach(item => {
+      let parts = item.textContent.split("-");
+      sales.push({
+        product: parts[0],
+        price: parts[1]
+      });
+    });
+
+    localStorage.setItem("sales".JSON.stringify(sales));
+  }
+
+  // load sales
+  function loadSales(){
+    let sales = JSON.parse(localStorage.getItem("sales")) || [];
+
+    sales.forEach(sale => {
+      let li = document.createElement("li");
+      li.textContent = sale.product + "-" + sale.price;
+      document.getElementById("salesList").appendChild(li);
+    });
+  }
