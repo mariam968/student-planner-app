@@ -7,26 +7,37 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>My Tasks</h1>
+    <div class="container">
+
+      <div class="card">
+    <h2>My Tasks</h2>
+
     <input type="text" id="taskInput" placeholder="Enter a task" />
 
     <input type="date" id="taskDate" />
 
     <select id="taskCategory">
-      <option value="School">School</option>
-      <option value="Business">Business</option>
+      <option>School</option>
+      <option>Personal</option>
+      <option>Work</option>
     </select>
+
     <button onclick="addTask()">Add Task</button>
     <ul id="taskList"></ul>
+</div>
 
+
+  <div class="card">
     <h2>Sales Tracker</h2>
     <input type="text" id="productInput" placeholder="Product name" />
     <input type="number" id="priceInput" placeholder="Price" />
 
     <button onclick="addSale()">Add Sale</button>
     <ul id="salesList"></ul>
-    <h3>Total: <span id="totalAmount">0</span></h3>
 
+    <h3>Total: <span id="totalAmount">0</span></h3>
+</div>
+</div>
     <script src="script.js"></script>
   </body>
 </html>
