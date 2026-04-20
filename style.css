@@ -2,28 +2,47 @@ body {
 font-family: Arial;
 background-color:lightgray;
 margin: 0;
-padding: 20px;
+padding: 0;
+
+display: flex;
+justify-content: center;
 
 }
 
-.cointainer {
+
+.container {
   display: flex;
-  gap: 20px;
-  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+
+  flex-wrap: wrap;
+ 
+ 
 }
 
 .card {
   background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
+
+  box-shadow: 0 6px 15px rgba(0,0,0,1.5);
+}
+h2 {
+  margin-bottom: 15px;
+}
+
+h3 {
+  margin-top: 15px;
+  color: darkgreen;
 }
 
 input, select {
   width: 100%;
   margin-bottom: 10px;
-  padding: 8px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
 }
 
 button {
@@ -43,4 +62,6 @@ button:hover {
 
 li {
  margin-top: 10px;
+ display: flex;
+ justify-content: space-between;
 }
