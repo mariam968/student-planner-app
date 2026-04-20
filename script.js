@@ -13,12 +13,12 @@ function addTask(){
 
   let task = input.value;
 
-  if(task === "") return;
+  if(task === " ") return;
 
   createTask(task, false, date, category);
   saveTasks();
 
-  input.value = "";
+  input.value = " ";
 }
 
 // create task element
@@ -30,7 +30,7 @@ function createTask(taskText, isDone, date, category){
   checkbox.checked = isDone;
 
   let span = document.createElement("span");
-  span.textContent = taskText + "|" + date + "|" + category;
+  span.textContent = taskText + " | " + date + " | " + category;
 
   if(isDone){
     span.style.textDecoration = "line-through;"
@@ -58,10 +58,9 @@ function createTask(taskText, isDone, date, category){
 // save tasks
 function saveTasks() {
   let tasks = [];
-  let listItems = document.querySelectorAll("#taskList li");
-
-  listItems.forEach(li => {
-    let parts = li.querySelector("span").textContent.split("|");
+  document.querySelectorAll("#tasklist li").forEach(li => {
+    let parts = li.querySelector("span").textContent.split(" | ");
+  
 
     tasks.push({
       text: parts[0],
@@ -90,42 +89,55 @@ function saveTasks() {
     let product = document.getElementById("productInput").value;
     let price = document.getElementById("priceInput").value;
 
-    if(product === "" || price === "")return;
+    if(product === " " || price === " ")return;
+
 
     let li = document.createElement("li");
-    li.textContent = product + "-" + price;
+    li.textContent = product + " - " + price ;
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+
+    deleteBtn.onclick = function(){
+      li.remove();
+      updateTotal();
+      saveSales();
+    }
+
+    li.appendChild(deleteBtn);
 
     document.getElementById("salesList").appendChild(li);
 
     updateTotal();
     saveSales();
 
-    document.getElementById("productInput").value = "";
-    document.getElementById("priceInput").value = "";
+    document.getElementById("productInput").value = " ";
+    document.getElementById("priceInput").value = " ";
   }
 
   // Update total
   function updateTotal(){
     let total = 0;
-    let items = document.querySelectorAll("#salesList li");
 
-    items.forEach(item => {
-      let parts = item.textContent.split("-");
-      let price = Number(parts[1]);
-      total += price;
+    document.querySelectorAll("#salesList li").forEach(item => {
+      let text = item.textContent;
+      let price = text.match(/\d+/);
+
+      if(price) total += Number(price[0]);
     });
 
-    document.getElementById("totalAmount").textContent = total;
-
+    document.getElementById("totalAmount").textContent = "UGX " + total;
   }
+
 
   // Save sales
   function saveSales(){
     let sales = [];
-    let items = document.querySelectorAll("#salesList li");
 
-    items.forEach(item => {
-      let parts = item.textContent.split("-");
+    document.querySelectorAll("#salesList li").forEach(item => {
+      let text = item.textContent;
+      let parts = text.split(" - ");
+
       sales.push({
         product: parts[0],
         price: parts[1]
@@ -141,7 +153,18 @@ function saveTasks() {
 
     sales.forEach(sale => {
       let li = document.createElement("li");
-      li.textContent = sale.product + "-" + sale.price;
+      li.textContent = sale.product + " - " + sale.price;
+
+      let deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "❌";
+
+      deleteBtn.onclick = function(){
+        li.remove();
+        updateTotal();
+        saveSales();
+      };
+
+      li.appendChild(deleteBtn);
       document.getElementById("salesList").appendChild(li);
     });
   }
