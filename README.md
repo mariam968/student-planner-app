@@ -21,7 +21,10 @@ JavaScript
 
 📸Preview
 
+
+
 what i Learned
+
 How to buld interactive web apps using JavaScipt
 How to store data using local storage
 How to debug and fix coding errors
