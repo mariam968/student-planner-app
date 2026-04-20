@@ -21,7 +21,7 @@ JavaScript
 
 📸Preview
 
-![App Screenshot](Screenshot_20-4-2026_11440_m
+![App Screenshot](Screenshot_20-4-2026_11440_mmariam968.github.io.jpeg)
 
 what i Learned
 
